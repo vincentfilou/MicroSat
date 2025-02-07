@@ -72,6 +72,9 @@ let rec dpll formula result =
                                     )
                     | None -> None))
 
+let compat model0 model1 =
+    List.forall (fun x -> not((List.contains -x model1))) model0
+
 let arr = 
     Directory.GetFiles("Bench/uf20-91/", "*.cnf") 
     |> Array.Parallel.map (fun x -> (x,load_cnf x)) 
