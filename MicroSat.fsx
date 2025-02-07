@@ -55,8 +55,8 @@ let rec build_partitions partition formula=
 
 let rec split acc lst size =
     match lst with
-    | [] -> [acc]
-    | f :: lst0 -> (if List.length(acc) = size then acc::(split [] lst size) else (split (f::acc) lst0 size))
+    | [] -> [|acc|]
+    | f :: lst0 -> (if List.length(acc) = size then (Array.concat [[|acc|] ;(split [] lst size)]) else (split (f::acc) lst0 size))
 
 let rec dpll formula result =
     let f0 = unit_propag formula in
@@ -77,5 +77,4 @@ let arr =
     |> Array.Parallel.map (fun x -> (x,load_cnf x)) 
     |> Array.Parallel.map (fun x -> match (dpll (snd x) []) with
                                                             | Some res-> printfn "%s SAT" (fst x)
-                                                            | None -> printfn "%s UNSAT" (fst x)) 
-   
+                                                            | None -> printfn "%s UNSAT" (fst x))
