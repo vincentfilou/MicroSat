@@ -64,9 +64,9 @@ let rec dpll formula result =
     if is_empty f1 then Some result
     else (if (contains_empty_clause f1) then None
             else (match (get_literal f1) with
-                    | Some x -> (match (dpll (List.append f1 [[x]])(List.append [x] result)) with
+                    | Some x -> (match (dpll ([x]::f1) (x::result)) with
                                     | Some res -> Some res
-                                    | None         ->  (match (dpll (List.append f1 [[-x]]) (List.append [-x] result)) with
+                                    | None         ->  (match (dpll ([-x]::f1) (-x::result)) with
                                                         | Some res -> Some res
                                                         | None -> None)
                                     )
